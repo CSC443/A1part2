@@ -19,7 +19,7 @@ int compare (const void *a, const void *b) {
 
 int main(int argc, char *atgv[]){
  	printf("start disk_sort\n");
- 	FILE *fp_write;
+ 	//FILE *fp_write;
  	FILE *fp_read;
     int block_size = atoi(atgv[3]);
     int mem = atoi(atgv[2]);
@@ -33,11 +33,11 @@ int main(int argc, char *atgv[]){
 		return -1;
 	}
 
-	fp_write = fopen("sorted.dat", "wb");
-	if(fp_write == NULL){
-		perror("Error opening file");
-		return -1;
-	}	
+	//fp_write = fopen("sorted.dat", "wb");
+	// if(fp_write == NULL){
+	// 	perror("Error opening file");
+	// 	return -1;
+	// }	
 
 	// find file size
     fseek(fp_read, 0L, SEEK_END);
@@ -57,7 +57,31 @@ int main(int argc, char *atgv[]){
     printf("chunk num is %d,block num per chunk  is %d, last_chunk_size is %d\n",chunk_num,block_num,last_chunk_size);
 
     //fp_write = fopen("sroted_chunks.dat", "wb");
+    //FILE *fp_write;
     while (run < chunk_num+1){
+    	printf("1 \n");
+    	FILE *fp_write;
+    	printf("2 \n");
+    	char k[2];
+    	printf("3 \n");
+		sprintf(k,"%d",run);
+		printf("4 \n");
+		char * filename = (char *) calloc(20,sizeof(char));
+		printf("%s\n",filename );
+		printf("5 \n");
+		strcat(filename,"sorted");
+		printf("6 \n");
+		strcat(filename,k);
+		printf("7 \n");
+		strcat(filename,".dat");
+		printf("8 \n");
+		printf("%s\n",filename );
+		//printf("%s\n",strcat(strcat("sorted",k), ".dat") );
+		fp_write = fopen( filename, "wb");
+		if(fp_write == NULL){
+	 	perror("Error opening file");
+	 	return -1;
+	    }	
         if (run == chunk_num) {
         	if (last_chunk_size== 0){
                    break;
@@ -73,16 +97,19 @@ int main(int argc, char *atgv[]){
         }
         else{
 		Record * buffer = (Record *) calloc (records_per_chunk, sizeof (Record));
-		printf("1 run is %d\n",run);
+		printf("run 1 is %d\n", run );
 		fread (buffer, sizeof(Record), records_per_chunk, fp_read);
-		printf("2 run is %d\n",run);
+		
 		qsort (buffer, records_per_chunk, sizeof(Record), compare);
-		printf("3 run is %d\n",run);
 		fwrite(buffer, sizeof(Record), records_per_chunk, fp_write);
 		fflush (fp_write);
+
 		//printf("run is %d\n",run)
 		free(buffer);
+		
 	   }
+	   free(filename);
+	   fclose(fp_write);
 	   //free (buffer);
 	   //free(buffer);
 	   run++; 
@@ -94,7 +121,7 @@ int main(int argc, char *atgv[]){
 	//fwrite(buffer, sizeof(Record), num_records, stdout);
    }
    fclose(fp_read);
-   fclose(fp_write);
+   
  }
 
  int mm_sorting(char *filename,int size) {
