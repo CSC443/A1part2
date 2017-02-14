@@ -52,7 +52,7 @@ int main(int argc, char *atgv[]){
 	fseek(fp_read, 0L, SEEK_SET);
     int run = 0;
     printf("chunk num is %d,block num per chunk  is %d, last_chunk_size is %d\n",chunk_num,block_num,last_chunk_size);
-
+    
     while (run < chunk_num+1){
     	FILE *fp_write;
     	char k[2];
