@@ -30,7 +30,7 @@ int main(int argc, char *atgv[]){
     int block_num= (mem/block_size);
     printf("%d,%d\n", mem,block_size);
     printf("This is block_num %d\n",block_num);
-    printf("this is b num:%d\n",1024*1024*200/1024 );
+    printf("size of record:%d\n",sizeof(Record));
     int num_records = mem / sizeof(Record);
 
 	if (!(fp_read = fopen (atgv[1] , "rb" ))){
@@ -48,6 +48,18 @@ int main(int argc, char *atgv[]){
     int last_chunk_size = file_size - chunk_num*(block_num*block_size);
     int records_per_chunk = records_per_block*block_num;
     int records_last_chunk = last_chunk_size/sizeof(Record);
+    int num_sublist;
+    if (last_chunk_size!=0){
+    	num_sublist = chunk_num;
+
+    }else{
+        num_sublist = chunk_num + 1; 
+    }
+    printf("required memory for phase 2 is %d, mem is %d\n",(num_sublist+1)*block_size,mem );
+    if (((num_sublist+1)*block_size) > mem){
+    	perror("not enough memory");
+    	return 0;
+    } 
 	//set pointe to the begining of the file
 	fseek(fp_read, 0L, SEEK_SET);
     int run = 0;
@@ -55,9 +67,9 @@ int main(int argc, char *atgv[]){
 
     while (run < chunk_num+1){
     	FILE *fp_write;
-    	char k[2];
+    	char k[chunk_num+1];
 		sprintf(k,"%d",run);
-		char * filename = (char *) calloc(20,sizeof(char));
+		char * filename = (char *) calloc(20+chunk_num+1,sizeof(char));
 		printf("%s\n",filename );
 		strcat(filename,"sorted");
 		strcat(filename,k);
