@@ -44,6 +44,7 @@ int merge_runs (MergeManager * merger){
 	
 	//flush what remains in output buffer
 	if(merger->current_output_buffer_position > 0) {
+		printf("last buffer size%d uid1 %d uid2 %d\n", merger->current_output_buffer_position, merger->output_buffer[1].uid1, merger->output_buffer[1].uid2);
 		if(flush_output_buffer(merger)!=SUCCESS)
 			return FAILURE;
 	}
@@ -166,7 +167,7 @@ int flush_output_buffer (MergeManager * manager) {
 		return FAILURE;
 	}
 	//fseek(fp_write, 0L, SEEK_END);
-	fwrite(manager->output_buffer, sizeof(Record), manager-> output_buffer_capacity, fp_write);
+	fwrite(manager->output_buffer, sizeof(Record), manager->current_output_buffer_position, fp_write);
 	fflush (fp_write);
 	fclose(fp_write);
 	manager->current_output_buffer_position = 0;
@@ -177,12 +178,20 @@ int get_next_input_element(MergeManager * manager, int file_number, Record *resu
 	
 	if(manager->current_input_buffer_positions[file_number] == manager->total_input_buffer_elements[file_number]){
 		manager->current_input_buffer_positions[file_number] = 0;
-		if(refill_buffer (manager, file_number)!=SUCCESS)
+		
+			
+		if(refill_buffer (manager, file_number)!=SUCCESS){
 			return FAILURE;
+		}
+
+		if(manager->current_input_file_positions[file_number] == -1){
+			return EMPTY;
+		}
 	}
 	*result = manager->input_buffers[file_number][manager->current_input_buffer_positions[file_number]];
 	printf("filenumber %d uid1 %d uid2 %d\n", file_number, result->uid1, result->uid2);
 	manager->current_input_buffer_positions[file_number]++;
+	
 	return SUCCESS;
 }
 
@@ -202,9 +211,12 @@ int refill_buffer (MergeManager * manager, int file_number) {
 		fseek(fp_read, manager->current_input_file_positions[file_number]*sizeof(Record), SEEK_SET);
 		int result = fread (manager->input_buffers[file_number], sizeof(Record), manager->input_buffer_capacity, fp_read);
 		if(result <= 0){
-			manager->current_heap_size--;
+			manager->current_input_file_positions[file_number] = -1;
 		}else{
 			manager->current_input_file_positions[file_number]+= result;
+			// if(result < manager->input_buffer_capacity){
+			// 	manager->current_input_file_positions[file_number] = -1;
+			// }
 			manager->total_input_buffer_elements[file_number] = result;
 		}
 		
