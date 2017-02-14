@@ -1,3 +1,4 @@
+#include "record.h"
 #ifndef MERGE_H
 #define MERGE_H
 
@@ -11,11 +12,6 @@
 #define SUCCESS 0
 #define FAILURE 1
 #define EMPTY 2
-
-typedef struct record {
-	int UID1;
-	int UID2;
-} Record;
 
 typedef struct HeapElement {
 	int UID1;

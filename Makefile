@@ -14,9 +14,10 @@ READ_BLOCKS_RAND= record.c read_blocks_rand.c
 READ_RAM_RAND= record.c read_ram_rand.c
 WRITE_BLOCKS_RAND= record.c write_blocks_rand.c
 WRITE_RAM_RAND= record.c write_ram_rand.c
-DISK_SORT = record.c disk_sort.c 
+MERGE_EXTERNAL = record.c merge_external.c
+DISK_SORT = merge_external.c record.c disk_sort.c 
 # Binaries
-all:write_blocks_seq read_blocks_seq disk_sort 
+all:write_blocks_seq read_blocks_seq disk_sort merge_external
 
 #sequential writing in blocks
 write_blocks_seq: $(WRITE_BLOCKS_SRC)
@@ -25,6 +26,9 @@ read_blocks_seq: $(READ_BLOCKS_SRC)
 	$(CC) $(CFLAGS) $^ -o read_blocks_seq
 disk_sort: ${DISK_SORT}
 	$(CC) $(CFLAGS) $^ -o disk_sort
+merge_external: ${DISK_SORT}
+	$(CC) $(CFLAGS) $^ -o merge_external
+
 
 clean:  
-	rm write_blocks_seq disk_sort read_blocks_seq
+	rm write_blocks_seq disk_sort read_blocks_seq merge_external
