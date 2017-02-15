@@ -127,7 +127,8 @@ int init_merge (MergeManager * manager) {
 	FILE *fp;
 	
 	printf("%d\n", manager->heap_capacity);
-	for(int i = 0; i < manager->heap_capacity; i++){
+	int i;
+	for(i = 0; i < manager->heap_capacity; i++){
 		char k[2];
 		char * filename = (char *) calloc(20,sizeof(char));
 		sprintf(k,"%d",manager->input_file_numbers[i]);

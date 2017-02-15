@@ -30,8 +30,8 @@ int main(int argc, char *atgv[]){
     int block_num= (mem/block_size);
     printf("%d,%d\n", mem,block_size);
     printf("This is block_num %d\n",block_num);
-    printf("size of record:%d\n",sizeof(Record));
-    int num_records = mem / sizeof(Record);
+    //printf("size of record:%d\n",sizeof(Record));
+    //int num_records = mem / sizeof(Record);
 
 	if (!(fp_read = fopen (atgv[1] , "rb" ))){
 		return -1;
@@ -42,7 +42,7 @@ int main(int argc, char *atgv[]){
 	int file_size = ftell(fp_read);
 	printf("file size %d\n", file_size);
 
-	int total_records = file_size/sizeof(Record);
+	//int total_records = file_size/sizeof(Record);
     int records_per_block = block_size/sizeof(Record);
 	int chunk_num = file_size/(block_num*block_size); 
     int last_chunk_size = file_size - chunk_num*(block_num*block_size);
@@ -121,7 +121,7 @@ int main(int argc, char *atgv[]){
  int merge_sort(int buffer_num, int mem, int block_size){
  	MergeManager * manager = (MergeManager *)calloc(1, sizeof(MergeManager));
 
- 	int records_per_block  = block_size/sizeof(Record);
+ 	//int records_per_block  = block_size/sizeof(Record);
  	int records_per_mem = mem/sizeof(Record);
  	int records_per_buffer = records_per_mem / buffer_num + 1;
 
@@ -138,7 +138,8 @@ int main(int argc, char *atgv[]){
  	int current_input_buffer_positions[buffer_num];
  	int total_input_buffer_elements[buffer_num];
  	Record** input_buffers = malloc(buffer_num * sizeof(Record *));
- 	for(int i = 0; i < buffer_num; i++){
+ 	int i;
+ 	for(i = 0; i < buffer_num; i++){
  		input_file_numbers[i] = i;
  		current_input_file_positions[i] = 0;
  		current_input_buffer_positions[i] = 0;
