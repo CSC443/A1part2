@@ -8,11 +8,15 @@ int main(int argc, char *atgv[]){
 	int block_size = atoi(atgv[2]);
 	int records_per_block = block_size/sizeof(Record);
 	FILE *fp_read;
-
+	FILE *fp_write;
 	/* allocate buffer for 1 block */
 	Record * buffer = (Record *) calloc (records_per_block, sizeof (Record)) ;
 	
 	if (!(fp_read = fopen (atgv[1] , "rb" ))){
+		return -1;
+	}
+
+	if (!(fp_write = fopen ("megered.txt" , "wr+" ))){
 		return -1;
 	}
 
@@ -51,8 +55,8 @@ int main(int argc, char *atgv[]){
 		}
 
 		while(pointer < records_per_block){
-			if(pointer <= 10)
-				printf("uid1:%d,uid2:%d\n", buffer[pointer].uid1 , buffer[pointer].uid2);
+			fprintf(fp_write, "uid1:%d,uid2:%d\n", buffer[pointer].uid1 , buffer[pointer].uid2);
+			
 			if(current_max_id == -1){
 				current_max_id = buffer[pointer].uid1;
 				current_max_followers = 1;
