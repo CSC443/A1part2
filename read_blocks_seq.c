@@ -51,7 +51,8 @@ int main(int argc, char *atgv[]){
 		}
 
 		while(pointer < records_per_block){
-			printf("uid1:%d,uid2:%d\n", buffer[pointer].uid1 , buffer[pointer].uid2);
+			if(pointer <= 10)
+				printf("uid1:%d,uid2:%d\n", buffer[pointer].uid1 , buffer[pointer].uid2);
 			if(current_max_id == -1){
 				current_max_id = buffer[pointer].uid1;
 				current_max_followers = 1;
