@@ -113,7 +113,7 @@ int main(int argc, char *atgv[]){
 
    }
    fclose(fp_read);
-   merge_sort(chunk_num + 1, mem, block_size);
+   merge_sort(num_sublist, mem, block_size);
    return 0;
    
  }

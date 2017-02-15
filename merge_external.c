@@ -44,7 +44,7 @@ int merge_runs (MergeManager * merger){
 	
 	//flush what remains in output buffer
 	if(merger->current_output_buffer_position > 0) {
-		printf("last buffer size%d uid1 %d uid2 %d\n", merger->current_output_buffer_position, merger->output_buffer[1].uid1, merger->output_buffer[1].uid2);
+		//printf("last buffer size%d uid1 %d uid2 %d\n", merger->current_output_buffer_position, merger->output_buffer[1].uid1, merger->output_buffer[1].uid2);
 		if(flush_output_buffer(merger)!=SUCCESS)
 			return FAILURE;
 	}
@@ -92,7 +92,7 @@ int insert_into_heap (MergeManager * merger, int run_id, Record *input){
 
 	HeapElement new_heap_element;
 	int child, parent;
-	printf("heap uid1 %d uid2 %d\n", input->uid1, input->uid2);
+	//printf("heap uid1 %d uid2 %d\n", input->uid1, input->uid2);
 
 	new_heap_element.UID1 = input->uid1;
 	new_heap_element.UID2 = input->uid2;
@@ -189,7 +189,7 @@ int get_next_input_element(MergeManager * manager, int file_number, Record *resu
 		}
 	}
 	*result = manager->input_buffers[file_number][manager->current_input_buffer_positions[file_number]];
-	printf("filenumber %d uid1 %d uid2 %d\n", file_number, result->uid1, result->uid2);
+	//printf("filenumber %d uid1 %d uid2 %d\n", file_number, result->uid1, result->uid2);
 	manager->current_input_buffer_positions[file_number]++;
 	
 	return SUCCESS;
