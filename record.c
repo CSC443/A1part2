@@ -20,7 +20,7 @@ void csv_to_record(char* filename, char* block_size){
 	}
 
 	//open dat file to write 
-	fp_write = fopen("data6.dat", "wb");
+	fp_write = fopen("data7.dat", "wb");
 	if(fp_write == NULL){
 		perror("Error opening file");
 		return;
