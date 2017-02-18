@@ -6,6 +6,7 @@
 
 int main(int argc, char *atgv[]){
 	int block_size = atoi(atgv[2]);
+	char* col_id = atgv[3];
 	int records_per_block = block_size/sizeof(Record);
 	FILE *fp_read;
 	FILE *fp_write;
@@ -16,7 +17,7 @@ int main(int argc, char *atgv[]){
 		return -1;
 	}
 
-	if (!(fp_write = fopen ("megered.txt" , "wr+" ))){
+	if (!(fp_write = fopen ("sorted.txt" , "wr+" ))){
 		return -1;
 	}
 
@@ -45,6 +46,8 @@ int main(int argc, char *atgv[]){
 	while((result = fread (buffer, sizeof(Record), records_per_block, fp_read)) > 0){
 		int pointer = 0;
 		records_per_block = block_size/sizeof(Record);
+		int id = 0;
+
 
 		//Check if the total number of records read from file is less than one block 
 		if (result!=records_per_block){
@@ -55,20 +58,24 @@ int main(int argc, char *atgv[]){
 		}
 
 		while(pointer < records_per_block){
-			fprintf(fp_write, "uid1:%d,uid2:%d\n", buffer[pointer].uid1 , buffer[pointer].uid2);
-			
+			//fprintf(fp_write, "uid1:%d,uid2:%d\n", buffer[pointer].uid1 , buffer[pointer].uid2);
+			if(strcmp(col_id, "UID1") == 0){
+				id = buffer[pointer].uid1;
+			}else if(strcmp(col_id, "UID2") == 0){
+				id = buffer[pointer].uid2;
+			}
 			if(current_max_id == -1){
-				current_max_id = buffer[pointer].uid1;
+				current_max_id = id;
 				current_max_followers = 1;
 				id_count++;
-			}else if(current_max_id == buffer[pointer].uid1){
+			}else if(current_max_id == id){
 				current_max_followers++;
 			}else{
 				if(previous_max_followers < current_max_followers && previous_max_id != current_max_id){
 					previous_max_followers = current_max_followers;
 					previous_max_id = current_max_id;
 				}
-				current_max_id = buffer[pointer].uid1;
+				current_max_id = id;
 				current_max_followers = 1;
 				id_count++;
 			}
