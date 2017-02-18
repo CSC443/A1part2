@@ -129,8 +129,8 @@ int init_merge (MergeManager * manager) {
 	printf("%d\n", manager->heap_capacity);
 	int i;
 	for(i = 0; i < manager->heap_capacity; i++){
-		char k[2];
-		char * filename = (char *) calloc(20,sizeof(char));
+		char k[100];
+		char * filename = (char *) calloc(121,sizeof(char));
 		sprintf(k,"%d",manager->input_file_numbers[i]);
 		strcat(filename,manager->input_prefix);
 		strcat(filename,k);
@@ -149,7 +149,7 @@ int init_merge (MergeManager * manager) {
 				manager->current_heap_size--;
 			}
 			manager->current_input_file_positions[i] =  result;
-			manager->total_input_buffer_elements[i] = result;
+			manager->total_input_buffer_elements[i] = result;		
 			insert_into_heap(manager, manager->input_file_numbers[i], &manager->input_buffers[i][manager->current_input_buffer_positions[i]]);
 			manager->current_input_buffer_positions[i]++;
 		}
@@ -198,9 +198,9 @@ int get_next_input_element(MergeManager * manager, int file_number, Record *resu
 
 int refill_buffer (MergeManager * manager, int file_number) {
 	FILE *fp_read;
-	char k[2];
+	char k[100];
 	sprintf(k,"%d",manager->input_file_numbers[file_number]);
-	char * filename = (char *) calloc(20,sizeof(char));
+	char * filename = (char *) calloc(121,sizeof(char));
 	strcat(filename,"sorted");
 	strcat(filename,k);
 	strcat(filename,".dat");
