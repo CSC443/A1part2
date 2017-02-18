@@ -55,6 +55,7 @@ int main(int argc, char *atgv[]){
     }else{
         num_sublist = chunk_num + 1; 
     }
+    printf("%d\n",num_sublist);
     printf("required memory for phase 2 is %d, mem is %d\n",(num_sublist+1)*block_size,mem );
     if (((num_sublist+1)*block_size) > mem){
     	perror("not enough memory");
@@ -113,7 +114,7 @@ int main(int argc, char *atgv[]){
 
    }
    fclose(fp_read);
-   merge_sort(num_sublist, mem, block_size);
+   merge_sort(num_sublist+1, mem, block_size);
    return 0;
    
  }
