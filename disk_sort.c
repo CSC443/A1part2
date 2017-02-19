@@ -88,7 +88,7 @@ int main(int argc, char *atgv[]){
 
         	}else{
         		Record * buffer = (Record *) calloc (records_last_chunk, sizeof (Record));
-        		fread (buffer, sizeof(Record), records_last_chunk, fp_read);
+        		int r1 = fread (buffer, sizeof(Record), records_last_chunk, fp_read);
 				qsort (buffer, records_last_chunk, sizeof(Record), compare);
 				fwrite(buffer, sizeof(Record), records_last_chunk, fp_write);
 				fflush (fp_write);
@@ -98,7 +98,7 @@ int main(int argc, char *atgv[]){
         else{
 		Record * buffer = (Record *) calloc (records_per_chunk, sizeof (Record));
 		//printf("run 1 is %d\n", run );
-		fread (buffer, sizeof(Record), records_per_chunk, fp_read);
+		int r = fread (buffer, sizeof(Record), records_per_chunk, fp_read);
 		
 		qsort (buffer, records_per_chunk, sizeof(Record), compare);
 		fwrite(buffer, sizeof(Record), records_per_chunk, fp_write);
@@ -156,26 +156,4 @@ int main(int argc, char *atgv[]){
  	manager->total_input_buffer_elements = total_input_buffer_elements;
  	merge_runs(manager);
  	return 0;
- }
-
- int mm_sorting(char *filename,int size) {
-      int num_records = size / sizeof(Record) ; 
-      FILE *fp_read;
-      if (!(fp_read = fopen ( filename, "rb" ))){
-		return -1;
-	}
-
-	Record * buffer = (Record *) calloc (num_records, sizeof (Record));
-	fread (buffer, sizeof(Record), num_records, fp_read);
-	qsort (buffer, num_records, sizeof(Record), compare);
-	int pointer = 0;
-	while(pointer < num_records){
-			//printf("%d , %d\n" , buffer[pointer].uid1,buffer[pointer].uid2);
-			pointer++;
-		}
-	//fwrite(buffer, sizeof(Record), num_records, stdout);
-
-	fclose (fp_read);
-	free (buffer);
-    return 0 ;
  }
