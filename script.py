@@ -1,6 +1,8 @@
 from pylab import *
 import os
-import subprocess
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy import stats
 
 filenames_dat = ["data1.dat","data2.dat","data3.dat","data4.dat","data5.dat"]
 num =[1,2,4,16,32]
@@ -28,7 +30,6 @@ def plot_part2():
     width = .35
     ind = np.arange(len(y))
     result = plt.bar(ind, y, width=width, color=(0.2588, 0.4433, 1.0))
-    result[len(y) - 1].set_color('r')
     plt.xticks(ind + width / 2, x)
 
     fig.autofmt_xdate()
@@ -44,4 +45,41 @@ def plot_part2():
     plt.title('main memory vs time ')
 
     plt.show()
-plot_part2()
+#plot_part2()
+
+def power_law(filename):
+    x = []
+    y = []
+    f = open(filename, "r")
+    for line in f:
+        line = line.strip('\n')
+        if(int(line.split(",")[0]) != 0 and int(line.split(",")[1]) != 0):
+            x.append(int(line.split(",")[0]))
+            y.append(int(line.split(",")[1]))
+
+
+
+    y = np.log(y)
+    x = np.log(x)
+
+
+    # Perform fit
+    (aCoeff, bCoeff, rVal, pVal, stdError) = stats.linregress(x,y)
+
+    # Use fits to predict height for a range of diameters
+    testDiameter = x
+    predictHeight = (aCoeff * testDiameter) + bCoeff
+
+    # Create a string, showing the form of the equation (with fitted coefficients)
+    # and r squared value
+    # Coefficients are rounded to two decimal places.
+    #equation = str(round(np.log10(aCoeff), 2)) + 'log10(D) + ' + str(round(bCoeff, 2)) + ' (r$^2$ = ' + str(round(rVal ** 2, 2)) + ')'
+
+    # Plot fit against origional data
+    plot(x, y, '.')
+    plot(testDiameter, predictHeight)
+    xlabel('Diameter (cm)')
+    ylabel('Height (m)')
+    show()
+
+power_law("megered.txt")
