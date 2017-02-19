@@ -11,16 +11,16 @@ def part2_1():
     os.system("> log.txt")
     for i in range (0,5):
         # os.system("/usr/bin/time ./disk_sort "+ filenames_dat[i] + " "+ str(mem)+" "+block_size+"")
-        command = "/usr/bin/time -v ./disk_sort "+ filenames_dat[i] + " "+ str(mem/num[i])+" "+str(block_size) + " 2>>log.txt"
+        command = "/usr/bin/time -lp ./disk_sort "+ filenames_dat[i] + " "+ str(mem/num[i])+" "+str(block_size) + " 2>>log.txt"
         #outfile.write(os.popen(command).read()+"\n")
         #subprocess.call(command, stderr=outfile,stdout=outfile,shell=True)
         #f = open("log.txt","a")
         os.system(command)
         os.system("rm -f *sorted*")
-part2_1()
+#part2_1()
 
 def plot_part2():
-    y=[]
+    y=[13.39, 12.83, 12.98, 13.02, 14.00]
     x=[209715200,209715200/2,209715200/4,209715200/8,209715200/16]    
     x = np.log10(x)
     fig = plt.figure()
@@ -43,4 +43,5 @@ def plot_part2():
     plt.ylabel('run time')
     plt.title('main memory vs time ')
 
-    plt.show()    
+    plt.show()
+plot_part2()
