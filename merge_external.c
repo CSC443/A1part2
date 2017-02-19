@@ -228,19 +228,19 @@ int refill_buffer (MergeManager * manager, int file_number) {
 }
 
 void clean_up (MergeManager * merger) {
-	printf("clean up\n");
+	//printf("clean up\n");
 	free(merger->heap);
-	printf("1\n");
+	//printf("1\n");
 	// for(int i = 0; i < merger->heap_capacity; i++){
 	// 	free(merger->input_buffers[i]);
 	// 	printf("i\n");
 	// }
 	free(merger->input_buffers);
-	printf("2\n");
+	//printf("2\n");
 	free(merger->output_buffer);
-	printf("3\n");
+	//printf("3\n");
 	free(merger);
-	printf("4\n");
+	//printf("4\n");
 	
 }
 

@@ -21,15 +21,15 @@ int compare (const void *a, const void *b) {
 
 
 int main(int argc, char *atgv[]){
- 	printf("start disk_sort\n");
+ 	//printf("start disk_sort\n");
  	//FILE *fp_write;
  	FILE *fp_read;
     int block_size = atoi(atgv[3]);
     int mem = atoi(atgv[2]);
     
     int block_num= (mem/block_size);
-    printf("%d,%d\n", mem,block_size);
-    printf("This is block_num %d\n",block_num);
+    //printf("%d,%d\n", mem,block_size);
+    //printf("This is block_num %d\n",block_num);
     //printf("size of record:%d\n",sizeof(Record));
     //int num_records = mem / sizeof(Record);
 
@@ -40,7 +40,7 @@ int main(int argc, char *atgv[]){
 	// find file size
     fseek(fp_read, 0L, SEEK_END);
 	int file_size = ftell(fp_read);
-	printf("file size %d\n", file_size);
+	//printf("file size %d\n", file_size);
 
 	//int total_records = file_size/sizeof(Record);
     int records_per_block = block_size/sizeof(Record);
@@ -55,8 +55,8 @@ int main(int argc, char *atgv[]){
     }else{
         num_sublist = chunk_num + 1; 
     }
-    printf("%d\n",num_sublist);
-    printf("required memory for phase 2 is %d, mem is %d\n",(num_sublist+1)*block_size,mem );
+    //printf("%d\n",num_sublist);
+    //printf("required memory for phase 2 is %d, mem is %d\n",(num_sublist+1)*block_size,mem );
     if (((num_sublist+1)*block_size) > mem){
     	perror("not enough memory");
     	return 0;
@@ -64,18 +64,18 @@ int main(int argc, char *atgv[]){
 	//set pointe to the begining of the file
 	fseek(fp_read, 0L, SEEK_SET);
     int run = 0;
-    printf("chunk num is %d,block num per chunk  is %d, last_chunk_size is %d\n",chunk_num,block_num,last_chunk_size);
+    //printf("chunk num is %d,block num per chunk  is %d, last_chunk_size is %d\n",chunk_num,block_num,last_chunk_size);
     
     while (run < chunk_num+1){
     	FILE *fp_write;
     	char k[chunk_num+1];
 		sprintf(k,"%d",run);
 		char * filename = (char *) calloc(20+chunk_num+1,sizeof(char));
-		printf("%s\n",filename );
+		//printf("%s\n",filename );
 		strcat(filename,"sorted");
 		strcat(filename,k);
 		strcat(filename,".dat");
-		printf("%s\n",filename );
+		//printf("%s\n",filename );
 		//printf("%s\n",strcat(strcat("sorted",k), ".dat") );
 		fp_write = fopen( filename, "wb");
 		if(fp_write == NULL){
@@ -97,7 +97,7 @@ int main(int argc, char *atgv[]){
         }
         else{
 		Record * buffer = (Record *) calloc (records_per_chunk, sizeof (Record));
-		printf("run 1 is %d\n", run );
+		//printf("run 1 is %d\n", run );
 		fread (buffer, sizeof(Record), records_per_chunk, fp_read);
 		
 		qsort (buffer, records_per_chunk, sizeof(Record), compare);
@@ -170,7 +170,7 @@ int main(int argc, char *atgv[]){
 	qsort (buffer, num_records, sizeof(Record), compare);
 	int pointer = 0;
 	while(pointer < num_records){
-			printf("%d , %d\n" , buffer[pointer].uid1,buffer[pointer].uid2);
+			//printf("%d , %d\n" , buffer[pointer].uid1,buffer[pointer].uid2);
 			pointer++;
 		}
 	//fwrite(buffer, sizeof(Record), num_records, stdout);
