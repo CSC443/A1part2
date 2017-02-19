@@ -232,7 +232,8 @@ void clean_up (MergeManager * merger) {
 	//printf("clean up\n");
 	free(merger->heap);
 	//printf("1\n");
-	for(int i = 0; i < merger->heap_capacity; i++){
+	int i;
+	for(i = 0; i < merger->heap_capacity; i++){
 		free(merger->input_buffers[i]);
 		//printf("i\n");
 	}
