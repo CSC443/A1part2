@@ -122,16 +122,22 @@ int main(int argc, char *atgv[]){
  int merge_sort(int buffer_num, int mem, int block_size){
  	MergeManager * manager = (MergeManager *)calloc(1, sizeof(MergeManager));
 
- 	//int records_per_block  = block_size/sizeof(Record);
- 	int records_per_mem = mem/sizeof(Record);
- 	int records_per_buffer = records_per_mem / buffer_num + 1;
+ 	int records_per_block  = block_size/sizeof(Record);
+ 	int block_num = mem/block_size;
+ 	int records_per_buffer = records_per_block * (block_num / (buffer_num + 1));
 
 
  	manager->heap_capacity = buffer_num;
  	manager->heap = (HeapElement *)calloc(buffer_num, sizeof(HeapElement));
  	strcpy(manager->output_file_name , "sorted_merge.dat");
  	strcpy(manager->input_prefix, "sorted");
- 	manager->output_buffer_capacity = records_per_buffer;
+ 	if(block_num % (buffer_num + 1) > 0){
+ 		int extra_block = block_num % (buffer_num + 1);
+ 		manager->output_buffer_capacity = records_per_buffer + extra_block * records_per_block;
+ 	}else{
+ 		manager->output_buffer_capacity = records_per_buffer;
+ 	}
+ 	
  	manager->input_buffer_capacity = records_per_buffer;
  	
  	int input_file_numbers[buffer_num];
@@ -145,10 +151,10 @@ int main(int argc, char *atgv[]){
  		current_input_file_positions[i] = 0;
  		current_input_buffer_positions[i] = 0;
  		total_input_buffer_elements[i] = 0;
- 		input_buffers[i] = (Record *)calloc(records_per_buffer, sizeof(Record));
+ 		input_buffers[i] = (Record *)calloc(manager->input_buffer_capacity, sizeof(Record));
  	}	
  	manager->input_file_numbers = input_file_numbers;
- 	manager->output_buffer = (Record *)calloc(records_per_buffer, sizeof(Record));
+ 	manager->output_buffer = (Record *)calloc(manager->output_buffer_capacity, sizeof(Record));
  	manager->current_output_buffer_position = 0;
  	manager->input_buffers = input_buffers;
  	manager->current_input_file_positions = current_input_file_positions;

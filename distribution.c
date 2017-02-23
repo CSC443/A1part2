@@ -78,7 +78,9 @@ int main(int argc, char *atgv[]){
 	results[count]++;
 	int k = 0;
 	for(k = 0; k <= max_deg; k++){
-		fprintf(fp_write, "%d, %d\n", k, results[k]);
+		if(results[k] != 0){
+			fprintf(fp_write, "%d, %d\n", k, results[k]);
+		}
 	}	
 	fclose(fp_read);
 	fclose(fp_write);

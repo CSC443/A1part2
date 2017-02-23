@@ -3,6 +3,7 @@ import os
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy import stats
+from numpy.polynomial import polynomial as P
 
 filenames_dat = ["data1.dat","data2.dat","data3.dat","data4.dat","data5.dat"]
 num =[1,2,4,16,32]
@@ -47,39 +48,45 @@ def plot_part2():
     plt.show()
 #plot_part2()
 
-def power_law(filename):
+def exp_3(filename):
     x = []
     y = []
+
     f = open(filename, "r")
     for line in f:
         line = line.strip('\n')
-        if(int(line.split(",")[0]) != 0 and int(line.split(",")[1]) != 0):
-            x.append(int(line.split(",")[0]))
-            y.append(int(line.split(",")[1]))
 
+        # if (int(line.split(",")[0]) != 0 and int(line.split(",")[1]) != 0):
+        x.append(int(line.split(",")[0]))
+        y.append(int(line.split(",")[1]))
+    plot(x, y, '.')
+    show()
+#exp_3("megered.txt")
+def power_law(filename):
+    x = []
+    y = []
 
+    f = open(filename, "r")
+    for line in f:
+        line = line.strip('\n')
+
+        #if (int(line.split(",")[0]) != 0 and int(line.split(",")[1]) != 0):
+        x.append(int(line.split(",")[0]))
+        y.append(int(line.split(",")[1]))
 
     y = np.log(y)
     x = np.log(x)
 
-
     # Perform fit
-    (aCoeff, bCoeff, rVal, pVal, stdError) = stats.linregress(x,y)
+    #(aCoeff, bCoeff, rVal, pVal, stdError) = stats.linregress(x,y)
+    c, stats = P.polyfit(x, y, 1, full=True)
+    print(c)
+    predictY = (c[1] * x) + c[0]
 
-    # Use fits to predict height for a range of diameters
-    testDiameter = x
-    predictHeight = (aCoeff * testDiameter) + bCoeff
-
-    # Create a string, showing the form of the equation (with fitted coefficients)
-    # and r squared value
-    # Coefficients are rounded to two decimal places.
-    #equation = str(round(np.log10(aCoeff), 2)) + 'log10(D) + ' + str(round(bCoeff, 2)) + ' (r$^2$ = ' + str(round(rVal ** 2, 2)) + ')'
-
-    # Plot fit against origional data
     plot(x, y, '.')
-    plot(testDiameter, predictHeight)
-    xlabel('Diameter (cm)')
-    ylabel('Height (m)')
+    plot(x, predictY)
+    xlabel('log(out-degrees)')
+    ylabel('number of followers')
     show()
 
-power_law("megered.txt")
+power_law("megered2.txt")
