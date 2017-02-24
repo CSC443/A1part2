@@ -90,7 +90,7 @@ def power_law(filename):
     xlabel('log(out-degrees)  $10^x$')
     ylabel('log(number of users)  $10^y$')
     #print "the slope is -1.79842304061 "
-    print "the slope is -1.86176923903 "  
+    print("the slope is -1.86176923903 ")
     
     show()
     
