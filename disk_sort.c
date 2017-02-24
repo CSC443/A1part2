@@ -146,7 +146,7 @@ int main(int argc, char *atgv[]){
  	int total_input_buffer_elements[buffer_num];
  	Record** input_buffers = malloc(buffer_num * sizeof(Record *));
  	int i;
- 	for(i = 0; i < buffer_num; i++){
+ 	for(i = 0; i < manager->heap_capacity; i++){
  		input_file_numbers[i] = i;
  		current_input_file_positions[i] = 0;
  		current_input_buffer_positions[i] = 0;
