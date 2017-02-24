@@ -89,6 +89,9 @@ int main(int argc, char *atgv[]){
         	}else{
         		Record * buffer = (Record *) calloc (records_last_chunk, sizeof (Record));
         		int r1 = fread (buffer, sizeof(Record), records_last_chunk, fp_read);
+                if (r1==0){
+                    perror("read buffer failed\n");
+                }
 				qsort (buffer, records_last_chunk, sizeof(Record), compare);
 				fwrite(buffer, sizeof(Record), records_last_chunk, fp_write);
 				fflush (fp_write);
@@ -99,7 +102,9 @@ int main(int argc, char *atgv[]){
 		Record * buffer = (Record *) calloc (records_per_chunk, sizeof (Record));
 		//printf("run 1 is %d\n", run );
 		int r = fread (buffer, sizeof(Record), records_per_chunk, fp_read);
-		
+		if (r==0){
+                    perror("read buffer failed\n");
+        }
 		qsort (buffer, records_per_chunk, sizeof(Record), compare);
 		fwrite(buffer, sizeof(Record), records_per_chunk, fp_write);
 		fflush (fp_write);
