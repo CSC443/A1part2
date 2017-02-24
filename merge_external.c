@@ -237,7 +237,7 @@ void clean_up (MergeManager * merger) {
 		free(merger->input_buffers[i]);
 		//printf("i\n");
 	}
-	//free(merger->input_buffers);
+	free(merger->input_buffers);
 	//printf("2\n");
 	free(merger->output_buffer);
 	//printf("3\n");

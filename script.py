@@ -9,12 +9,13 @@ filenames_dat = ["data1.dat","data2.dat","data3.dat","data4.dat","data5.dat"]
 num =[1,2,4,16,32]
 block_size =16384 
 mem = 209715200
+os.system("rm -f *sorted*")
 def part2_1():
   #with open('log.txt', 'wa') as outfile:
     os.system("> log.txt")
     for i in range (0,5):
         # os.system("/usr/bin/time ./disk_sort "+ filenames_dat[i] + " "+ str(mem)+" "+block_size+"")
-        command = "/usr/bin/time -v ./disk_sort "+ filenames_dat[i] + " "+ str(mem/num[i])+" "+str(block_size) + " 2>>log.txt"
+        command = "/usr/bin/time -lp ./disk_sort "+ filenames_dat[i] + " "+ str(mem/num[i])+" "+str(block_size) + " 2>>log.txt"
         #outfile.write(os.popen(command).read()+"\n")
         #subprocess.call(command, stderr=outfile,stdout=outfile,shell=True)
         #f = open("log.txt","a")
