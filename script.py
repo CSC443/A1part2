@@ -75,24 +75,29 @@ def power_law(filename):
     logx = np.log(x)
     logy = np.log(y)
     (aCoeff, bCoeff, rVal, pVal, stdError) = stats.linregress(logx, logy)
-    predictY = (-1.86176923903 * logx) + max(logy)
-    print(aCoeff)
-    print(bCoeff)
+    a = find_best_fit_line(logx, logy, aCoeff)
+    predictY = (a * logx) + max(logy)
     plt.axis((min(logx),max(logx),0,max(logy)))
     plot(logx, logy, 'bs')
     plot(logx, predictY,'r-')
-    # for i in range(0,10):
-    #      aCoeff = aCoeff - 0.1
-    #      print i, aCoeff
-    #      bCoeff = 15 + 0.1
-    #      predictY = (aCoeff * logx) + bCoeff
-    #      plot(logx, predictY)
-    xlabel('log(out-degrees)  $10^x$')
+
+    xlabel('log(in-degrees)  $10^x$')
     ylabel('log(number of users)  $10^y$')
-    #print "the slope is -1.79842304061 "
-    print("the slope is -1.86176923903 ")
+    print(a)
     
     show()
-    
+
+def find_best_fit_line(x, y, a):
+    best_a = 0
+    error = infty
+    for i in range(0, 10):
+        a = a - 0.1
+        predictY = (a * x) + max(y)
+        #plot(x, predictY)
+        current_e = sum(square(predictY[:len(y)//2] - y[:len(y)//2]))
+        if(current_e < error):
+            error = current_e
+            best_a = a
+    return best_a
 #power_law("megered2.txt")
 power_law("megered.txt")
