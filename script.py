@@ -5,6 +5,10 @@ import matplotlib.pyplot as plt
 from scipy import stats
 from numpy.polynomial import polynomial as P
 
+
+
+
+
 filenames_dat = ["data1.dat","data2.dat","data3.dat","data4.dat","data5.dat"]
 num =[1,2,4,16,32]
 block_size =16384 
@@ -71,14 +75,21 @@ def power_law(filename):
     logx = np.log(x)
     logy = np.log(y)
     (aCoeff, bCoeff, rVal, pVal, stdError) = stats.linregress(logx, logy)
-    predictY = (aCoeff * logx) + bCoeff
+    predictY = (-1.79842304061 * logx) + 15
     print(aCoeff)
     print(bCoeff)
+    plt.axis((min(logx),max(logx),0,max(logy)))
     plot(logx, logy, 'bs')
-    plot(logx, predictY)
-
-    xlabel('log(in-degrees)')
-    ylabel('log(number of users)')
+    plot(logx, predictY,'r-')
+    # for i in range(0,10):
+    #      aCoeff = aCoeff - 0.1
+    #      print i, aCoeff
+    #      bCoeff = 15 + 0.1
+    #      predictY = (aCoeff * logx) + bCoeff
+    #      plot(logx, predictY)
+    xlabel('log(in-degrees)  $10^x$')
+    ylabel('log(number of users)  $10^x$')
+    print "the slope is -1.79842304061 "  
     show()
-
-power_law("megered.txt")
+    
+power_law("megered2.txt")
