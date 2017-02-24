@@ -75,7 +75,7 @@ def power_law(filename):
     logx = np.log(x)
     logy = np.log(y)
     (aCoeff, bCoeff, rVal, pVal, stdError) = stats.linregress(logx, logy)
-    predictY = (-1.86176923903 * logx) + bCoeff
+    predictY = (-1.86176923903 * logx) + max(logy)
     print(aCoeff)
     print(bCoeff)
     plt.axis((min(logx),max(logx),0,max(logy)))
