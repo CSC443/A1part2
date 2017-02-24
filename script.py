@@ -75,7 +75,7 @@ def power_law(filename):
     logx = np.log(x)
     logy = np.log(y)
     (aCoeff, bCoeff, rVal, pVal, stdError) = stats.linregress(logx, logy)
-    predictY = (-1.79842304061 * logx) + 15
+    predictY = (-1.86176923903 * logx) + bCoeff
     print(aCoeff)
     print(bCoeff)
     plt.axis((min(logx),max(logx),0,max(logy)))
@@ -87,9 +87,12 @@ def power_law(filename):
     #      bCoeff = 15 + 0.1
     #      predictY = (aCoeff * logx) + bCoeff
     #      plot(logx, predictY)
-    xlabel('log(in-degrees)  $10^x$')
-    ylabel('log(number of users)  $10^x$')
-    print "the slope is -1.79842304061 "  
+    xlabel('log(out-degrees)  $10^x$')
+    ylabel('log(number of users)  $10^y$')
+    #print "the slope is -1.79842304061 "
+    print "the slope is -1.86176923903 "  
+    
     show()
     
-power_law("megered2.txt")
+#power_law("megered2.txt")
+power_law("megered.txt")
